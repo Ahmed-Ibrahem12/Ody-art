@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiHeart } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchSearchResults , fetchImages } from "../redux/Slices/ImagesSlice";
+import { fetchSearchResults , fetchImages, type Image } from "../redux/Slices/ImagesSlice";
 
 
 const filters = [
@@ -89,7 +89,7 @@ const Trending = () => {
         <AnimatePresence mode="popLayout">
           {loading
             ? Array.from({ length: 4 }).slice(0,4).map((_, i) => <SkeletonCard key={i} />)
-            : (activeFilter === 0 ? images : searchResults || []).map((photo: string, i: number) => (
+            : (activeFilter === 0 ? images : searchResults || []).map((photo: Image, i: number) => (
                 <motion.div
                   key={photo.id}
                   initial={{ opacity: 0, y: 16 }}

@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
-import { fetchImages, fetchSearchResults, type ImagesState } from "../redux/Slices/ImagesSlice";
+import {
+  fetchImages,
+  fetchSearchResults,
+  type ImagesState,
+} from "../redux/Slices/ImagesSlice";
 import { useSelector, useDispatch } from "react-redux";
-import type { AppDispatch } from "../redux/store";
 import { AnimatePresence, motion } from "framer-motion";
 import { FiHeart } from "react-icons/fi";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -64,7 +67,7 @@ const PaginationNext = ({
 // ── Types ─────────────────────────────────────────────
 interface Image {
   id: string;
-  urls: { small: string , regular: string };
+  urls: { small: string; regular: string };
   alt_description: string | null;
   user: { name: string };
   likes: number;
@@ -114,7 +117,7 @@ const ArtCard = ({
   index,
   hoveredId,
   onEnter,
-    onLeave,
+  onLeave,
   onSelect,
 }: {
   photo: Image;
@@ -122,7 +125,7 @@ const ArtCard = ({
   hoveredId: string | null;
   onEnter: (id: string) => void;
   onLeave: () => void;
-  onSelect: (url: string) => void;  
+  onSelect: (url: string) => void;
 }) => {
   const badge = badges[index % badges.length];
   const price = prices[index % prices.length];
@@ -211,12 +214,12 @@ const ArtCard = ({
 const Gallery = () => {
   const [page, setPage] = useState(1);
   const [activeFilter, setActiveFilter] = useState(0);
-    const [hoveredId, setHoveredId] = useState<string | null>(null);
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const { images, searchResults, loading } = useSelector(
-    (state: ImagesState) => state.image,
+    (state: any) => state.image,
   );
 
   const isAll = activeFilter === 0;
@@ -224,10 +227,10 @@ const Gallery = () => {
   // ── fetch on filter or page change
   useEffect(() => {
     if (isAll) {
-      dispatch(fetchImages(page));
+      dispatch(fetchImages(page) as any);
     } else {
       dispatch(
-        fetchSearchResults({ query: filters[activeFilter].query, page }),
+        fetchSearchResults({ query: filters[activeFilter].query, page }) as any
       );
     }
   }, [activeFilter, page, dispatch]);
@@ -312,9 +315,8 @@ const Gallery = () => {
                   index={i}
                   hoveredId={hoveredId}
                   onEnter={setHoveredId}
-                    onLeave={() => setHoveredId(null)}
-                    onSelect={setSelectedImage}
-                    
+                  onLeave={() => setHoveredId(null)}
+                  onSelect={setSelectedImage}
                 />
               ))}
         </AnimatePresence>
@@ -380,8 +382,8 @@ const Gallery = () => {
             </PaginationContent>
           </Pagination>
         </div>
-          )}
-          {/* Fullscreen Image Modal */}
+      )}
+      {/* Fullscreen Image Modal */}
       {selectedImage && (
         <div
           className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center"
