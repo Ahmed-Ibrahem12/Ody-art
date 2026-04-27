@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import {
   fetchImages,
   fetchSearchResults,
-  type ImagesState,
 } from "../redux/Slices/ImagesSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { AnimatePresence, motion } from "framer-motion";
